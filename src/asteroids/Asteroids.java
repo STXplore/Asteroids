@@ -67,6 +67,14 @@ class Asteroids extends Game {
         }
     }
     
+    if(circles != null) {
+        for(Circle c : circles) {
+            c.move();
+            if(c.check())
+                c.paint(brush);
+        }
+    }
+    
     brush.fillRect(10, 10, 20, 20);
     this.repaint();
   }
