@@ -11,6 +11,7 @@ import java.awt.*;
  */
 public abstract class Circle {
     public int x, y, r;
+    public double accelX, accelY;
     
     public Circle(int x, int y, int r) {
         this.x = x;
@@ -20,5 +21,12 @@ public abstract class Circle {
     
     public void paint(Graphics brush) {
         brush.drawOval(x, y, r, r);
+    }
+    
+    public void move() {
+        
+        x+=accelX;
+        y+=accelY;
+        
     }
 }
