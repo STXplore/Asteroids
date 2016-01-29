@@ -9,11 +9,13 @@ NOTE: This class is the metaphorical "main method" of your program,
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.*;
 
 class Asteroids extends Game {
     private Ship ship;
     private Asteroid[] asteroids;
-    private final int numAsteroids = 12;        
+    private final int numAsteroids = 12;
+    private ArrayList<Circle> circles = new ArrayList<Circle>();
   public Asteroids() {
     super("A Steroids!",800,600);
     
