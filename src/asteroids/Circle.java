@@ -19,9 +19,9 @@ public abstract class Circle {
     }
     
     public void move() {
-        
+        //Only used in bullet but whatever
         x+=accelX;
-        y+=accelY;
+        y-=accelY;
         
     }
 }

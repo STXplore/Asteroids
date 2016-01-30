@@ -13,21 +13,37 @@ import java.util.*;
 
 class Asteroids extends Game {
     private Ship ship;
-    private Asteroid[] asteroids;
-    private final int numAsteroids = 12;
-    private ArrayList<Circle> circles = new ArrayList<Circle>();
+    private ArrayList<Asteroid> asteroids;
+    private final int numAsteroids = 16;
+    private final int numStars = 50;
+    private final int bulletDelay = 120;
+    private ArrayList<Bullet> bullets;
+    private ArrayList<Star> stars;
+    private long lastFire;
+    
   public Asteroids() {
     super("A Steroids!",800,600);
     
-    asteroids = new Asteroid[numAsteroids];
+    //Initialize stuff fully
+    asteroids = new ArrayList<Asteroid>();
+    
+    bullets = new ArrayList<Bullet>();
+    
+    stars = new ArrayList<Star>();
     
     ship = new Ship();
+    
+    lastFire = System.currentTimeMillis();
     
     this.addKeyListener(ship);
     
     //Generate asteroids
     for(int i = 0; i < numAsteroids; i++) {
-        asteroids[i] = new Asteroid();
+        asteroids.add(new Asteroid());
+    }
+    
+    for(int i = 0; i < numStars; i++) {
+        stars.add(new Star());
     }
   }
   
@@ -42,36 +58,60 @@ class Asteroids extends Game {
         
         ship.paint(brush);
         ship.move();
-        ship.shoot(brush);
+        
+        //Ship tries to shoot, checks delay
+        if(ship.shoot()) {
+            if(System.currentTimeMillis() - lastFire > bulletDelay) {
+                bullets.add(new Bullet(ship));
+                lastFire = System.currentTimeMillis();
+            }
+        }
+    }
+    
+    if(bullets !=  null) {
+        for(int i =0; i < bullets.size(); i++) {
+            bullets.get(i).move();
+            bullets.get(i).paint(brush);
+            
+            if(bullets.get(i).x > width || bullets.get(i).x < 0 || bullets.get(i).y > height || bullets.get(i).y < 0) {
+                bullets.remove(i);
+                i--;
+            }
+        }
     }
     
     if(asteroids != null) {
-        for(Asteroid a : asteroids) {
-            if(a != null) {
-                a.move();
-                a.paint(brush);
-                if(a.checkTouch(ship)) {
-                    //IMPORTANT
+        for(int i = 0; i < asteroids.size(); i++) {
+            if(asteroids.get(i) != null) {
+                asteroids.get(i).move();
+                asteroids.get(i).paint(brush);
+                
+                //IMPORTANT
+                if(asteroids.get(i).checkTouch(ship)) {
                     
-                    for(int i = 50; i <= 750; i += 50) {
-                        for(int j = 50; j <= 550; j += 50) {
-                            brush.setColor(Color.WHITE);
-                            brush.drawString("LOSE", i, j);
-                        }
-                    }
+                    //This is what happens when an asteroid touches the ship
                     
                     
+                    
+                    asteroids.remove(i);
+                    i--;
+                    ship.lives--;
                     //ship = null;
+                }
+                if(asteroids.get(i).checkTouch(bullets)) {
+                    
+                    //If an asteroid touches ANY bullet
+                    
+                    asteroids.remove(i);
+                    i--;
                 }
             }
         }
     }
     
-    if(circles != null) {
-        for(Circle c : circles) {
-            c.move();
-            
-            c.paint(brush);
+    if(stars != null) {
+        for(Star s : stars) {
+            s.paint(brush);
         }
     }
     

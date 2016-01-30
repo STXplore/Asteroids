@@ -7,16 +7,19 @@ import java.awt.event.*;
  * @author gannis013
  */
 public class Ship extends Polygon implements KeyListener {
-    private boolean w, a, s, d;
+    private boolean w, a, s, d, shoot;
     
     private final double maxAcc = 10;
     
     private final double accelRate = .05;
     
+    public int lives;
+    
     public Ship() {
         super(new Point[] { new Point(0, 10), new Point(5, 0), new Point(0, -10), new Point(30, 0)} , new Point(400, 300), 0.0);
         accelX = 0;
         accelY = 0;
+        lives = 3;
     }
     
     public void paint(Graphics brush) {
@@ -30,6 +33,7 @@ public class Ship extends Polygon implements KeyListener {
         }
         brush.drawPolygon(x, y, points.length);
         brush.drawString("MPH : " + Math.round(Math.sqrt(Math.pow(accelX, 2) + Math.pow(accelY, 2)) * 50), 50, 550);
+        brush.drawString("Lives : " + lives, 150, 550);
     }
     public void move() {
         
@@ -101,6 +105,9 @@ public class Ship extends Polygon implements KeyListener {
         if(ke.getKeyChar() == 'd' || ke.getKeyChar() == 'D') {
             d = true;
         }
+        if(ke.getKeyChar() == 'e' || ke.getKeyChar() == 'E') {
+            shoot = true;
+        }
     }
 
     public void keyPressed(KeyEvent ke) {
@@ -120,6 +127,9 @@ public class Ship extends Polygon implements KeyListener {
         if(ke.getKeyChar() == 'd' || ke.getKeyChar() == 'D') {
             d = false;
         }
+        if(ke.getKeyChar() == 'e' || ke.getKeyChar() == 'E') {
+            shoot = false;
+        }
     }
     
     public Point posMove() {
@@ -127,8 +137,8 @@ public class Ship extends Polygon implements KeyListener {
         
     }
     
-    public void shoot(Graphics g) {
-       
+    public boolean shoot() {
+       return shoot;
     }
     
 }
