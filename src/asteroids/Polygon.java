@@ -16,14 +16,14 @@ NOTE: You don't need to worry about the "magic math" details.
 
 //I don't like this class
 
-abstract class Polygohn {
+abstract class Polygon {
   private Point[] shape;   // An array of points.
   public Point position;   // The offset mentioned above.
   public double rotation; // Zero degrees is due east.
   
   public double accelX, accelY; //yep
   
-  public Polygohn(Point[] inShape, Point inPosition, double inRotation) {
+  public Polygon(Point[] inShape, Point inPosition, double inRotation) {
     shape = inShape;
     position = inPosition;
     rotation = inRotation;
@@ -103,18 +103,6 @@ abstract class Polygohn {
     }
     double area = findArea();
     return new Point(Math.abs(sum.x/(6*area)),Math.abs(sum.y/(6*area)));
-  }
-  
-  public Polygon convert() {
-      Point[] points = getPoints();
-        int[] x = new int[points.length];
-        int[] y = new int[points.length];
-        
-        for(int i = 0; i < points.length; i++) {
-            x[i] = (int)points[i].x;
-            y[i] = (int)points[i].y;
-        }
-    return new Polygon(x, y, x.length);
   }
   
   abstract void paint(Graphics g);

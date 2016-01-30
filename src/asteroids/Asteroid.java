@@ -9,7 +9,7 @@ import java.awt.*;
  *
  * @author gannis013
  */
-public class Asteroid extends Polygohn {
+public class Asteroid extends Polygon {
     
     public Asteroid() {
         super(new Point[] { new Point(-5, -5), new Point(-5, 5), new Point(5, 5), new Point(5, -5) }, new Point(Math.random() * 800, Math.random() *600), Math.random()*360);

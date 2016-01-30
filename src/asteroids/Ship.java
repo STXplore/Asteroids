@@ -6,7 +6,7 @@ import java.awt.event.*;
  *
  * @author gannis013
  */
-public class Ship extends Polygohn implements KeyListener {
+public class Ship extends Polygon implements KeyListener {
     private boolean w, a, s, d;
     
     private final double maxAcc = 10;
