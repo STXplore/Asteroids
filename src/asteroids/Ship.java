@@ -7,11 +7,13 @@ import java.awt.event.*;
  * @author gannis013
  */
 public class Ship extends Polygon implements KeyListener {
-    private boolean w, a, s, d, shoot;
+    private boolean w, a, s, d, q, shoot;
     
     private final double maxAcc = 10;
     
     private final double accelRate = .05;
+    
+    private final int rotateSpeed = 3;
     
     public int lives;
     
@@ -38,13 +40,13 @@ public class Ship extends Polygon implements KeyListener {
     public void move() {
         
         if(a == true) {
-            rotation-= 2;
+            rotation-= rotateSpeed;
             if(rotation < 0) {
                 rotation += 360;
             }
         }
         if(d == true) {
-            rotation+= 2;
+            rotation+= rotateSpeed;
             if(rotation > 360) {
                 rotation -= 360;
             }
@@ -67,6 +69,12 @@ public class Ship extends Polygon implements KeyListener {
         
         if(accelX < -maxAcc) accelX = -maxAcc;
         if(accelY < -maxAcc) accelY = -maxAcc;
+        }
+        if(q == true) {
+            accelX /= 1.03;
+            accelY /= 1.03;
+            if(accelX < .3 && accelX > -.3) { accelX = 0; }
+            if(accelY < .3 && accelY > -.3) { accelY = 0; }
         }
         
         
@@ -105,6 +113,9 @@ public class Ship extends Polygon implements KeyListener {
         if(ke.getKeyChar() == 'd' || ke.getKeyChar() == 'D') {
             d = true;
         }
+        if(ke.getKeyChar() == 'q' || ke.getKeyChar() == 'Q') {
+            q = true;
+        }
         if(ke.getKeyChar() == 'e' || ke.getKeyChar() == 'E') {
             shoot = true;
         }
@@ -126,6 +137,9 @@ public class Ship extends Polygon implements KeyListener {
         }
         if(ke.getKeyChar() == 'd' || ke.getKeyChar() == 'D') {
             d = false;
+        }
+        if(ke.getKeyChar() == 'q' || ke.getKeyChar() == 'Q') {
+            q = false;
         }
         if(ke.getKeyChar() == 'e' || ke.getKeyChar() == 'E') {
             shoot = false;

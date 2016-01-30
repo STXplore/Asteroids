@@ -87,23 +87,29 @@ class Asteroids extends Game {
                 asteroids.get(i).paint(brush);
                 
                 //IMPORTANT
-                if(asteroids.get(i).checkTouch(ship)) {
+                if(i < asteroids.size()) {
+                    if(asteroids.get(i).checkTouch(ship)) {
+                        
+                        //This is what happens when an asteroid touches the ship
                     
-                    //This is what happens when an asteroid touches the ship
-                    
-                    
-                    
-                    asteroids.remove(i);
-                    i--;
-                    ship.lives--;
-                    //ship = null;
+                        
+                        
+                        asteroids.remove(i);
+                        i--;
+                        ship.lives--;
+                        //ship = null;
+                    }
                 }
-                if(asteroids.get(i).checkTouch(bullets)) {
+                if(i < asteroids.size()) {
+                    if(asteroids.get(i).checkTouch(bullets)) {
+                        
+                        //If an asteroid touches ANY bullet
                     
-                    //If an asteroid touches ANY bullet
-                    
-                    asteroids.remove(i);
-                    i--;
+                        asteroids.remove(i);
+                        i--;
+                        System.gc();
+                        break;
+                    }
                 }
             }
         }
