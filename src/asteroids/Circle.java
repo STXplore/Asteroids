@@ -24,6 +24,4 @@ public abstract class Circle {
         y+=accelY;
         
     }
-    
-    abstract boolean check();
 }

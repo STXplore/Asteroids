@@ -20,10 +20,4 @@ public class Bullet extends Circle {
         this.accelX = point.x;
         this.accelY = point.y;
     }
-    
-    public boolean check() {
-        //CHECK BULLET/ASTEROID COLLISION
-        
-        return true;
-    }
 }

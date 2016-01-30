@@ -70,8 +70,8 @@ class Asteroids extends Game {
     if(circles != null) {
         for(Circle c : circles) {
             c.move();
-            if(c.check())
-                c.paint(brush);
+            
+            c.paint(brush);
         }
     }
     
