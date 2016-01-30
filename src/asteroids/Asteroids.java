@@ -82,6 +82,7 @@ class Asteroids extends Game {
     
     if(asteroids != null) {
         for(int i = 0; i < asteroids.size(); i++) {
+            if(i < asteroids.size()) {
             if(asteroids.get(i) != null) {
                 asteroids.get(i).move();
                 asteroids.get(i).paint(brush);
@@ -112,6 +113,7 @@ class Asteroids extends Game {
                     }
                 }
             }
+        }
         }
     }
     

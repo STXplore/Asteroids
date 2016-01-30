@@ -36,6 +36,8 @@ public class Ship extends Polygon implements KeyListener {
         brush.drawPolygon(x, y, points.length);
         brush.drawString("MPH : " + Math.round(Math.sqrt(Math.pow(accelX, 2) + Math.pow(accelY, 2)) * 50), 50, 550);
         brush.drawString("Lives : " + lives, 150, 550);
+        
+        //TODO: stop painting and move once dead
     }
     public void move() {
         
