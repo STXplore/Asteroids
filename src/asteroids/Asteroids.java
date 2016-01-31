@@ -31,7 +31,7 @@ class Asteroids extends Game {
     
     stars = new ArrayList<Star>();
     
-    ship = new Ship();
+    ship = new Ship(3);
     
     lastFire = System.currentTimeMillis();
     
@@ -67,6 +67,9 @@ class Asteroids extends Game {
             }
         }
     }
+    
+    //Otherwise when you hit one life everything is red
+    brush.setColor(Color.WHITE);
     
     if(bullets !=  null) {
         for(int i =0; i < bullets.size(); i++) {

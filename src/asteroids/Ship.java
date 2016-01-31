@@ -19,11 +19,11 @@ public class Ship extends Polygon implements KeyListener {
     
     public boolean notLost;
     
-    public Ship() {
+    public Ship(int lives) {
         super(new Point[] { new Point(0, 10), new Point(5, 0), new Point(0, -10), new Point(30, 0)} , new Point(400, 300), 0.0);
         accelX = 0;
         accelY = 0;
-        lives = 3;
+        this.lives = lives;
         notLost = true;
     }
     
@@ -39,11 +39,19 @@ public class Ship extends Polygon implements KeyListener {
                 x[i] = (int)points[i].x;
                 y[i] = (int)points[i].y;
             }
+            if(lives <= 1) {
+                brush.setColor(Color.RED);
+            }
             brush.drawPolygon(x, y, points.length);
+            brush.setColor(Color.WHITE);
             brush.drawString("MPH : " + Math.round(Math.sqrt(Math.pow(accelX, 2) + Math.pow(accelY, 2)) * 50), 50, 550);
+            if(lives <= 1) {
+                brush.setColor(Color.RED);
+            }
             brush.drawString("Lives : " + lives, 150, 550);
         } else {
             brush.drawString("MPH : Undefined", 50, 550);
+            brush.setColor(Color.RED);
             brush.drawString("Lives : " + lives, 150, 550);
         }
         
