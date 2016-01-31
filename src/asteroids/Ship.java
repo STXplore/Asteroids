@@ -17,30 +17,39 @@ public class Ship extends Polygon implements KeyListener {
     
     public int lives;
     
+    public boolean notLost;
+    
     public Ship() {
         super(new Point[] { new Point(0, 10), new Point(5, 0), new Point(0, -10), new Point(30, 0)} , new Point(400, 300), 0.0);
         accelX = 0;
         accelY = 0;
         lives = 3;
+        notLost = true;
     }
     
     public void paint(Graphics brush) {
-        Point[] points = getPoints();
-        int[] x = new int[points.length];
-        int[] y = new int[points.length];
+        if(lives <= 0) { notLost = false; }
         
-        for(int i = 0; i < points.length; i++) {
-            x[i] = (int)points[i].x;
-            y[i] = (int)points[i].y;
+        if(notLost) {
+            Point[] points = getPoints();
+            int[] x = new int[points.length];
+            int[] y = new int[points.length];
+            
+            for(int i = 0; i < points.length; i++) {
+                x[i] = (int)points[i].x;
+                y[i] = (int)points[i].y;
+            }
+            brush.drawPolygon(x, y, points.length);
+            brush.drawString("MPH : " + Math.round(Math.sqrt(Math.pow(accelX, 2) + Math.pow(accelY, 2)) * 50), 50, 550);
+            brush.drawString("Lives : " + lives, 150, 550);
+        } else {
+            brush.drawString("MPH : Undefined", 50, 550);
+            brush.drawString("Lives : " + lives, 150, 550);
         }
-        brush.drawPolygon(x, y, points.length);
-        brush.drawString("MPH : " + Math.round(Math.sqrt(Math.pow(accelX, 2) + Math.pow(accelY, 2)) * 50), 50, 550);
-        brush.drawString("Lives : " + lives, 150, 550);
         
-        //TODO: stop painting and move once dead
     }
     public void move() {
-        
+        if(notLost) {
         if(a == true) {
             rotation-= rotateSpeed;
             if(rotation < 0) {
@@ -80,26 +89,28 @@ public class Ship extends Polygon implements KeyListener {
         }
         
         
-        if(position.x > 805) {
-            position.x = -5;
+        if(position.x > 810) {
+            position.x = -10;
         }
-        if(position.x < -5) {
-            position.x = 805;
+        if(position.x < -10) {
+            position.x = 810;
         }
         
-        if(position.y > 600) {
-            position.y = 0;
+        if(position.y > 610) {
+            position.y = -10;
         }
-        if(position.y < 0) {
-            position.y = 600;
+        if(position.y < -10) {
+            position.y = 610;
         }
 
         //position.x+=pull.x - position.x;
         //position.y+=pull.y - position.y;
         position.x+= accelX;
         position.y-= accelY;
-        
-        
+        } else {
+            position.x = 1000;
+            position.y = 1000;
+        }
     }
     //Supports wasd, WASD
     public void keyTyped(KeyEvent ke) {
