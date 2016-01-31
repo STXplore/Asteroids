@@ -93,8 +93,7 @@ class Asteroids extends Game {
                         
                         //This is what happens when an asteroid touches the ship
                     
-                        
-                        
+                        //Asteroids will not break when touching the ship because it instantly destroys the ship
                         asteroids.remove(i);
                         i--;
                         ship.lives--;
@@ -106,6 +105,11 @@ class Asteroids extends Game {
                         
                         //If an asteroid touches ANY bullet
                     
+                        if(asteroids.get(i).wasBroken() == false) {
+                            asteroids.add(new Asteroid(asteroids.get(i)));
+                            asteroids.add(new Asteroid(asteroids.get(i)));
+                        }
+                        
                         asteroids.remove(i);
                         i--;
                         System.gc();
@@ -123,7 +127,6 @@ class Asteroids extends Game {
         }
     }
     
-    brush.fillRect(10, 10, 20, 20);
     this.repaint();
   }
   

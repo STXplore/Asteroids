@@ -21,11 +21,13 @@ public class Asteroid extends Polygon {
         
         broken = false;
     }
+    
+    //Only if not broken previously
     public Asteroid(Asteroid a) {
-        super(new Point[] { new Point(-6, -6), new Point(-6, 6), new Point(6, 6), new Point(6, -6) }, new Point(a.findCenter().x + Math.random()*5, a.findCenter().y + Math.random()*5), Math.random()*360);
+        super(new Point[] { new Point(-6, -6), new Point(-6, 6), new Point(6, 6), new Point(6, -6) }, a.getPoints()[(int)Math.random()*4], Math.random()*360);
        
-        accelX = Math.random()*3 - 1.5;
-        accelY = Math.random()*3 - 1.5;
+        accelX = a.accelX * Math.random() * 1.5 + a.accelX / 2;
+        accelY = a.accelY * Math.random() * 1.5 + a.accelY / 2;
         
         broken = true;
     }
@@ -71,12 +73,14 @@ public class Asteroid extends Polygon {
                 return true;
             }
         }
+        
+
         for(Point g : m) {
             if(ship.contains(g)) {
                 return true;
             }
         }
-
+ 
         return false;
     }
     
@@ -92,6 +96,7 @@ public class Asteroid extends Polygon {
     public boolean checkTouch(ArrayList<Bullet> bullets) {
         for(Bullet b : bullets) {
             if(contains(b)) {
+                bullets.remove(b);
                 return true;
             }
         }
