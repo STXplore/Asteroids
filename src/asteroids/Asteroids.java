@@ -24,7 +24,7 @@ class Asteroids extends Game {
     private int level;
     
   public Asteroids() {
-    super("A Steroids!",800,600);
+    super("Asteroids - Griffin Annis",800,600);
     
     //Initialize stuff fully
     asteroids = new ArrayList<Asteroid>();
