@@ -176,4 +176,13 @@ public class Ship extends Polygon implements KeyListener {
        return shoot;
     }
     
+    public void reset() {
+        position.x = 400;
+        position.y = 300;
+        rotation = 0;
+        accelX = 0;
+        accelY = 0;
+        lives += 1;
+    }
+    
 }
