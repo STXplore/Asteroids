@@ -14,12 +14,14 @@ import java.util.*;
 class Asteroids extends Game {
     private Ship ship;
     private ArrayList<Asteroid> asteroids;
-    private final int numAsteroids = 16;
-    private final int numStars = 50;
-    private final int bulletDelay = 120;
+    private final int numAsteroids = 6;
+    private final int numStars = 60;
+    private final int bulletDelay = 150;
     private ArrayList<Bullet> bullets;
     private ArrayList<Star> stars;
-    private long lastFire;
+    private long lastFire, timeCleared;
+    
+    private int level;
     
   public Asteroids() {
     super("A Steroids!",800,600);
@@ -35,12 +37,12 @@ class Asteroids extends Game {
     
     lastFire = System.currentTimeMillis();
     
+    level = 1;
+    
     this.addKeyListener(ship);
     
     //Generate asteroids
-    for(int i = 0; i < numAsteroids; i++) {
-        asteroids.add(new Asteroid());
-    }
+    generate();
     
     for(int i = 0; i < numStars; i++) {
         stars.add(new Star());
@@ -52,6 +54,7 @@ class Asteroids extends Game {
     brush.fillRect(0,0,width,height);
 
     brush.setColor(Color.white);
+    brush.drawString("Level : " + level, 50, 525);
     
     //Anything ship related
     if(ship !=  null) {
@@ -91,7 +94,7 @@ class Asteroids extends Game {
                 asteroids.get(i).paint(brush);
                 
                 //IMPORTANT
-                if(i < asteroids.size()) {
+                if(i < asteroids.size() && i >= -1) {
                     if(asteroids.get(i).checkTouch(ship)) {
                         
                         //This is what happens when an asteroid touches the ship
@@ -103,12 +106,12 @@ class Asteroids extends Game {
                         //ship = null;
                     }
                 }
-                if(i < asteroids.size()) {
+                if(i < asteroids.size() && i >= -1) {
                     if(asteroids.get(i).checkTouch(bullets)) {
                         
                         //If an asteroid touches ANY bullet
                     
-                        if(asteroids.get(i).wasBroken() == false) {
+                        if(asteroids.get(i).wasBroken() == false && level*Math.random() / 2 > 2) {
                             asteroids.add(new Asteroid(asteroids.get(i)));
                             asteroids.add(new Asteroid(asteroids.get(i)));
                         }
@@ -130,10 +133,35 @@ class Asteroids extends Game {
         }
     }
     
+    if(asteroids.isEmpty()) {
+        level++;
+        timeCleared = System.currentTimeMillis();
+        ship.reset();
+        
+        //doesnt work properly
+        clearBullets();
+        generate();
+    }
+    if(System.currentTimeMillis() - 2000 < timeCleared) {
+        brush.drawString("Level " + (level - 1) + " Clear", 350, 400);
+    }
     this.repaint();
   }
   
   public static void main (String[] args) {
     new Asteroids();
+  }
+  
+  //Makes asteroids based on base and level
+  public void generate() {
+      for(int i = 0; i < numAsteroids + level*2; i++) {
+        asteroids.add(new Asteroid());
+    }
+  }
+  
+  public void clearBullets() {
+      for(int i = 0; i < bullets.size(); i++) {
+          bullets.remove(i);
+      }
   }
 }
