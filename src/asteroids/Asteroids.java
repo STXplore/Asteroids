@@ -20,7 +20,7 @@ class Asteroids extends Game {
     private ArrayList<Bullet> bullets;
     private ArrayList<Star> stars;
     private long lastFire, timeCleared;
-    
+    private Circle explode;
     private int level;
     
   public Asteroids() {
@@ -32,6 +32,8 @@ class Asteroids extends Game {
     bullets = new ArrayList<Bullet>();
     
     stars = new ArrayList<Star>();
+    
+    explode = new Circle(1000, 1000, 1);
     
     ship = new Ship(3);
     
@@ -55,7 +57,7 @@ class Asteroids extends Game {
 
     brush.setColor(Color.white);
     brush.drawString("Level : " + level, 50, 525);
-    
+    brush.drawString("Controls: WASD, E to shoot, Q to brake", 150, 525);
     //Anything ship related
     if(ship !=  null) {
         
@@ -80,8 +82,28 @@ class Asteroids extends Game {
             bullets.get(i).paint(brush);
             
             if(bullets.get(i).x > width || bullets.get(i).x < 0 || bullets.get(i).y > height || bullets.get(i).y < 0) {
-                bullets.remove(i);
-                i--;
+                if(!bullets.get(i).crossed) {
+                    if(bullets.get(i).x > 805) {
+                        bullets.get(i).x = 0;
+                        bullets.get(i).crossed = true;
+                    }
+                    if(bullets.get(i).x < -5) {
+                        bullets.get(i).x = 800;
+                        bullets.get(i).crossed = true;
+                    }
+        
+                    if(bullets.get(i).y > 600) {
+                        bullets.get(i).y = 0;
+                        bullets.get(i).crossed = true;
+                    }
+                    if(bullets.get(i).y < 0) {
+                        bullets.get(i).y = 600;
+                        bullets.get(i).crossed = true;
+                    }
+                } else {
+                        bullets.remove(i);
+                        i--;
+                    }
             }
         }
     }
@@ -106,7 +128,7 @@ class Asteroids extends Game {
                         //ship = null;
                     }
                 }
-                if(i < asteroids.size() && i >= -1) {
+                if(i < asteroids.size() && i >= 0) {
                     if(asteroids.get(i).checkTouch(bullets)) {
                         
                         //If an asteroid touches ANY bullet
@@ -131,6 +153,13 @@ class Asteroids extends Game {
         for(Star s : stars) {
             s.paint(brush);
         }
+    }
+    
+    if(!ship.notLost) {
+        explode.x = ship.lastPos.x;
+        explode.y = ship.lastPos.y;
+        explode.r *= 1.5;
+        explode.paint(brush);
     }
     
     if(asteroids.isEmpty()) {
@@ -160,8 +189,6 @@ class Asteroids extends Game {
   }
   
   public void clearBullets() {
-      for(int i = 0; i < bullets.size(); i++) {
-          bullets.remove(i);
-      }
+      bullets.clear();
   }
 }
