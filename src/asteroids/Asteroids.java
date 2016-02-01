@@ -106,7 +106,7 @@ class Asteroids extends Game {
                         //ship = null;
                     }
                 }
-                if(i < asteroids.size() && i >= -1) {
+                if(i < asteroids.size() && i >= 0) {
                     if(asteroids.get(i).checkTouch(bullets)) {
                         
                         //If an asteroid touches ANY bullet
@@ -160,8 +160,6 @@ class Asteroids extends Game {
   }
   
   public void clearBullets() {
-      for(int i = 0; i < bullets.size(); i++) {
-          bullets.remove(i);
-      }
+      bullets.clear();
   }
 }
