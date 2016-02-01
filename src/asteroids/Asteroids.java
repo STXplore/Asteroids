@@ -22,7 +22,7 @@ class Asteroids extends Game {
     private long lastFire;
     
   public Asteroids() {
-    super("Asteroids - Griffin Annis",800,600);
+    super("A Steroids!",800,600);
     
     //Initialize stuff fully
     asteroids = new ArrayList<Asteroid>();
