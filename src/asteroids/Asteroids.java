@@ -55,7 +55,7 @@ class Asteroids extends Game {
 
     brush.setColor(Color.white);
     brush.drawString("Level : " + level, 50, 525);
-    
+    brush.drawString("Controls: WASD, E to shoot, Q to brake", 150, 525);
     //Anything ship related
     if(ship !=  null) {
         
