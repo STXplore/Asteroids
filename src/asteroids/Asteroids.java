@@ -16,12 +16,12 @@ class Asteroids extends Game {
     private ArrayList<Asteroid> asteroids;
     private final int numAsteroids = 6;
     private final int numStars = 60;
-    private final int bulletDelay = 150;
+    private final int bulletDelay = 170;
     private ArrayList<Bullet> bullets;
     private ArrayList<Star> stars;
     private long lastFire, timeCleared;
-    private Circle explode;
     private int level;
+    private SoundEffect sound;
     
   public Asteroids() {
     super("Asteroids - Griffin Annis",800,600);
@@ -33,13 +33,13 @@ class Asteroids extends Game {
     
     stars = new ArrayList<Star>();
     
-    explode = new Circle(1000, 1000, 1);
-    
-    ship = new Ship(3);
+    ship = new Ship(2); //starts at 3 because asteroids starts at level 1 after 0
     
     lastFire = System.currentTimeMillis();
     
-    level = 1;
+    level = 0;
+    
+    sound.THEME.play();
     
     this.addKeyListener(ship);
     
@@ -68,10 +68,13 @@ class Asteroids extends Game {
         if(ship.shoot()) {
             if(System.currentTimeMillis() - lastFire > bulletDelay) {
                 bullets.add(new Bullet(ship));
+                sound.SHOOT.play();
                 lastFire = System.currentTimeMillis();
             }
         }
     }
+    
+    sound.THEME.loop();
     
     //Otherwise when you hit one life everything is red
     brush.setColor(Color.WHITE);
@@ -124,6 +127,7 @@ class Asteroids extends Game {
                         //Asteroids will not break when touching the ship because it instantly destroys the ship
                         asteroids.remove(i);
                         i--;
+                        sound.EXPLODE.play();
                         ship.lives--;
                         //ship = null;
                     }
@@ -140,8 +144,6 @@ class Asteroids extends Game {
                         
                         asteroids.remove(i);
                         i--;
-                        System.gc();
-                        break;
                     }
                 }
             }
@@ -155,14 +157,8 @@ class Asteroids extends Game {
         }
     }
     
-    if(!ship.notLost) {
-        explode.x = ship.lastPos.x;
-        explode.y = ship.lastPos.y;
-        explode.r *= 1.5;
-        explode.paint(brush);
-    }
-    
     if(asteroids.isEmpty()) {
+        System.gc();
         level++;
         timeCleared = System.currentTimeMillis();
         ship.reset();
@@ -172,8 +168,10 @@ class Asteroids extends Game {
         generate();
     }
     if(System.currentTimeMillis() - 2000 < timeCleared) {
-        brush.drawString("Level " + (level - 1) + " Clear", 350, 400);
+        if(level > 1) brush.drawString("Level " + (level - 1) + " Clear", 350, 400);
     }
+    
+    sound.THEME.loop();
     this.repaint();
   }
   
