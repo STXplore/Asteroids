@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package asteroids;
-
+import java.awt.*;
 /**
  *
  * @author gannis013
@@ -19,5 +19,14 @@ public class Bullet extends Circle {
         Point point = ship.posMove();
         this.accelX = point.x*speed;
         this.accelY = point.y*speed;
+    }
+    public Bullet(Ship ship, int x, int y, Color c) {
+        super(ship.position.x, ship.position.y, 3);
+        this.x = ship.position.x;
+        this.y = ship.position.y;
+        Point point = ship.posMove();
+        this.accelX = point.x*speed + x;
+        this.accelY = point.y*speed + y;
+        this.color = c;
     }
 }

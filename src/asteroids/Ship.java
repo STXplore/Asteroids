@@ -9,7 +9,7 @@ import java.awt.event.*;
  */
 public class Ship extends Polygon implements KeyListener {
 
-    private boolean w, a, s, d, q, shoot;
+    public boolean w, a, s, d, q, shoot, shotgun;
 
     private final double maxAcc = 10;
 
@@ -17,7 +17,7 @@ public class Ship extends Polygon implements KeyListener {
 
     private final int rotateSpeed = 3;
 
-    public int lives;
+    public int lives, energy;
 
     public boolean notLost;
 
@@ -30,6 +30,7 @@ public class Ship extends Polygon implements KeyListener {
         this.lives = lives;
         notLost = true;
         lastPos = new Point(findCenter());
+        energy = 10;
     }
 
     public void paint(Graphics brush) {
@@ -174,7 +175,9 @@ public class Ship extends Polygon implements KeyListener {
     }
 
     public void keyPressed(KeyEvent ke) {
-
+        if (ke.getKeyCode() == KeyEvent.VK_SHIFT) {
+            shotgun = !shotgun;
+        }
     }
 
     public void keyReleased(KeyEvent ke) {

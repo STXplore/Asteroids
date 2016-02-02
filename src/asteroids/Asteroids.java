@@ -16,7 +16,7 @@ class Asteroids extends Game {
     private ArrayList<Asteroid> asteroids;
     private final int numAsteroids = 6;
     private final int numStars = 60;
-    private final int bulletDelay = 170;
+    private final int bulletDelay = 200;
     private ArrayList<Bullet> bullets;
     private ArrayList<Star> stars;
     private long lastFire, timeCleared;
@@ -70,10 +70,23 @@ class Asteroids extends Game {
                 bullets.add(new Bullet(ship));
                 sound.SHOOT.play();
                 lastFire = System.currentTimeMillis();
+                if(ship.shotgun) {
+                    bullets.add(new Bullet(ship, 0 , 1, Color.RED));
+                    bullets.add(new Bullet(ship, 0 , -1, Color.BLUE));
+                    bullets.add(new Bullet(ship, 1 , 0, Color.GREEN));
+                    bullets.add(new Bullet(ship, -1 , 0, Color.YELLOW));
+                }
             }
         }
     }
-    
+    if(ship.shotgun) {
+        for(int y = 10; y < 50; y+= 5) {
+            for(int i = 30; i < 750; i+=50) {
+                brush.setColor(new Color((int)(Math.random()*255 + 1), (int)(Math.random()*255 + 1), (int)(Math.random()*255 + 1)));
+                brush.drawString("CASUL", i, y);
+            }
+        }
+    }
     sound.THEME.loop();
     
     //Otherwise when you hit one life everything is red
@@ -169,6 +182,10 @@ class Asteroids extends Game {
     }
     if(System.currentTimeMillis() - 2000 < timeCleared) {
         if(level > 1) brush.drawString("Level " + (level - 1) + " Clear", 350, 400);
+    }
+    
+    if(ship.lives > 0) {
+        ship.notLost = true;
     }
     
     sound.THEME.loop();
