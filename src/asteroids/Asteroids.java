@@ -148,7 +148,7 @@ class Asteroids extends Game {
                         //ship = null;
                     }
                 }
-                if(i < asteroids.size() - 1 && i >= 0) {
+                if((i < asteroids.size() - 1 || i == 0) && i >= 0) {
                     if(asteroids.get(i).checkTouch(bullets)) {
                         
                         //If an asteroid touches ANY bullet
