@@ -22,7 +22,7 @@ import javax.sound.sampled.*;
 public enum SoundEffect {
    EXPLODE("explode.wav"),   // explosion
    SHOOT("shooty.wav"),      // from freesound
-   THEME("theme.wav");       // john cena for now, probably changed
+   THEME("theme.wav");       //http://www.freesound.org/people/joshuaempyre/sounds/251461/
    
    
    // Each sound effect has its own clip, loaded with its own sound file.

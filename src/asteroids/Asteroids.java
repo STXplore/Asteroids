@@ -14,9 +14,9 @@ import java.util.*;
 class Asteroids extends Game {
     private Ship ship;
     private ArrayList<Asteroid> asteroids;
-    private final int numAsteroids = 6;
-    private final int numStars = 60;
-    private final int bulletDelay = 200;
+    private final int numAsteroids = 12;
+    private final int numStars = 70;
+    private final int bulletDelay = 250;
     private ArrayList<Bullet> bullets;
     private ArrayList<Star> stars;
     private long lastFire, timeCleared;
@@ -80,9 +80,10 @@ class Asteroids extends Game {
         }
     }
     if(ship.shotgun) {
-        for(int y = 10; y < 50; y+= 5) {
-            for(int i = 30; i < 750; i+=50) {
-                brush.setColor(new Color((int)(Math.random()*255 + 1), (int)(Math.random()*255 + 1), (int)(Math.random()*255 + 1)));
+        for(int y = 0; y < 600; y+= 10) {
+            Color color = new Color((int)(Math.random()*255 + 1), (int)(Math.random()*255 + 1), (int)(Math.random()*255 + 1));
+            for(int i = -5; i < 800; i+=40) {
+                brush.setColor(color);
                 brush.drawString("CASUL", i, y);
             }
         }
@@ -145,7 +146,7 @@ class Asteroids extends Game {
                         //ship = null;
                     }
                 }
-                if(i < asteroids.size() && i >= 0) {
+                if(i < asteroids.size() - 1 && i >= 0) {
                     if(asteroids.get(i).checkTouch(bullets)) {
                         
                         //If an asteroid touches ANY bullet
@@ -154,7 +155,7 @@ class Asteroids extends Game {
                             asteroids.add(new Asteroid(asteroids.get(i)));
                             asteroids.add(new Asteroid(asteroids.get(i)));
                         }
-                        
+                        sound.EXPLODE.play();
                         asteroids.remove(i);
                         i--;
                     }

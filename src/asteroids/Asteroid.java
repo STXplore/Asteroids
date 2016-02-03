@@ -47,7 +47,7 @@ public class Asteroid extends Polygon {
     public void move() {
         position.x+= accelX;
         position.y+= accelY;
-        
+        rotation += -accelX * accelY;
         if(position.x > 805) {
             position.x = -5;
         }

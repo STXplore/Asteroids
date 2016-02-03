@@ -19,6 +19,8 @@ public class Bullet extends Circle {
         Point point = ship.posMove();
         this.accelX = point.x*speed;
         this.accelY = point.y*speed;
+        //base bullets don't cross
+        crossed = true;
     }
     public Bullet(Ship ship, int x, int y, Color c) {
         super(ship.position.x, ship.position.y, 3);
@@ -28,5 +30,7 @@ public class Bullet extends Circle {
         this.accelX = point.x*speed + x;
         this.accelY = point.y*speed + y;
         this.color = c;
+        //casul bullets cross once
+        crossed = false;
     }
 }
