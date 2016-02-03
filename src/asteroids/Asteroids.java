@@ -20,7 +20,7 @@ class Asteroids extends Game {
     private ArrayList<Bullet> bullets;
     private ArrayList<Star> stars;
     private long lastFire, timeCleared;
-    private int level;
+    private int level, score;
     private SoundEffect sound;
     
   public Asteroids() {
@@ -57,6 +57,7 @@ class Asteroids extends Game {
 
     brush.setColor(Color.white);
     brush.drawString("Level : " + level, 50, 525);
+    brush.drawString("Points : " + score, 200, 550);
     brush.drawString("Controls: WASD, E to shoot, Q to brake", 150, 525);
     //Anything ship related
     if(ship !=  null) {
@@ -143,6 +144,7 @@ class Asteroids extends Game {
                         i--;
                         sound.EXPLODE.play();
                         ship.lives--;
+                        score--;
                         //ship = null;
                     }
                 }
@@ -157,6 +159,7 @@ class Asteroids extends Game {
                         }
                         sound.EXPLODE.play();
                         asteroids.remove(i);
+                        score++;
                         i--;
                     }
                 }
@@ -199,8 +202,10 @@ class Asteroids extends Game {
   
   //Makes asteroids based on base and level
   public void generate() {
-      for(int i = 0; i < numAsteroids + level*2; i++) {
-        asteroids.add(new Asteroid());
+    if(level != 0) {    
+        for(int i = 0; i < numAsteroids + level*2; i++) {
+            asteroids.add(new Asteroid());
+        }
     }
   }
   
