@@ -15,7 +15,7 @@ public class Asteroid extends Polygon {
     private final double baseAcc = 2;
     
     public Asteroid() {
-        super(new Point[] { new Point(-9, -9), new Point(-9, 9), new Point(9, 9), new Point(9, -9) }, new Point(Math.random() * 800, Math.random() *600), Math.random()*360);
+        super(new Point[] { new Point(-12, -12), new Point(-12, 12), new Point(12, 12), new Point(12, -12) }, new Point(Math.random() * 800, Math.random() *600), Math.random()*360);
        
         accelX = Math.random()*baseAcc - 1.5;
         accelY = Math.random()*baseAcc - 1.5;

@@ -15,7 +15,7 @@ public class Ship extends Polygon implements KeyListener {
 
     private final double accelRate = .05;
 
-    private final int rotateSpeed = 3;
+    private final int rotateSpeed = 4;
 
     public int lives, energy;
 

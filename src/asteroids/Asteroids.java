@@ -14,9 +14,9 @@ import java.util.*;
 class Asteroids extends Game {
     private Ship ship;
     private ArrayList<Asteroid> asteroids;
-    private final int numAsteroids = 12;
-    private final int numStars = 70;
-    private final int bulletDelay = 250;
+    private final int numAsteroids = 16;
+    private final int numStars = 560;
+    private final int bulletDelay = 170;
     private ArrayList<Bullet> bullets;
     private ArrayList<Star> stars;
     private long lastFire, timeCleared;
@@ -39,7 +39,7 @@ class Asteroids extends Game {
     
     level = 0;
     
-    sound.THEME.play();
+    //sound.THEME.play();
     
     this.addKeyListener(ship);
     
@@ -52,8 +52,23 @@ class Asteroids extends Game {
   }
   
   public void paint(Graphics brush) {
-    brush.setColor(Color.black);
+    brush.setColor(Color.DARK_GRAY);
     brush.fillRect(0,0,width,height);
+    if(ship != null && ship.shotgun) {
+        for(int y = (int)(Math.random()*15); y < 600; y+= 40*Math.random()) {
+            Color color = new Color((int)(Math.random()*255 + 1), (int)(Math.random()*255 + 1), (int)(Math.random()*255 + 1));
+            for(int i = (int)(-15*Math.random()); i < 800; i+=70*Math.random()) {
+                brush.setColor(color);
+                brush.drawString("CASUL", i, y);
+            }
+        }
+    }
+    if(stars != null) {
+        for(Star s : stars) {
+            s.move(ship);
+            s.paint(brush);
+        }
+    }
 
     brush.setColor(Color.white);
     brush.drawString("Level : " + level, 50, 525);
@@ -71,25 +86,21 @@ class Asteroids extends Game {
                 bullets.add(new Bullet(ship));
                 sound.SHOOT.play();
                 lastFire = System.currentTimeMillis();
+                ship.accelX -= ship.posMove().x*1.8;
+                ship.accelY -= ship.posMove().y*1.8;
                 if(ship.shotgun) {
                     bullets.add(new Bullet(ship, 0 , 1, Color.RED));
                     bullets.add(new Bullet(ship, 0 , -1, Color.BLUE));
                     bullets.add(new Bullet(ship, 1 , 0, Color.GREEN));
                     bullets.add(new Bullet(ship, -1 , 0, Color.YELLOW));
+                    ship.accelX -= ship.posMove().x*6;
+                    ship.accelY -= ship.posMove().y*6;
                 }
             }
         }
     }
-    if(ship.shotgun) {
-        for(int y = 0; y < 600; y+= 10) {
-            Color color = new Color((int)(Math.random()*255 + 1), (int)(Math.random()*255 + 1), (int)(Math.random()*255 + 1));
-            for(int i = -5; i < 800; i+=40) {
-                brush.setColor(color);
-                brush.drawString("CASUL", i, y);
-            }
-        }
-    }
-    sound.THEME.loop();
+    
+    //sound.THEME.loop();
     
     //Otherwise when you hit one life everything is red
     brush.setColor(Color.WHITE);
@@ -148,7 +159,7 @@ class Asteroids extends Game {
                         //ship = null;
                     }
                 }
-                if((i < asteroids.size() - 1 || i == 0) && i >= 0) {
+                if((i < asteroids.size() || i == 0) && i >= 0) {
                     if(asteroids.get(i).checkTouch(bullets)) {
                         
                         //If an asteroid touches ANY bullet
@@ -168,17 +179,10 @@ class Asteroids extends Game {
         }
     }
     
-    if(stars != null) {
-        for(Star s : stars) {
-            s.paint(brush);
-        }
-    }
-    
     if(asteroids.isEmpty()) {
         System.gc();
         level++;
         timeCleared = System.currentTimeMillis();
-        ship.reset();
         
         //doesnt work properly
         clearBullets();
@@ -192,7 +196,7 @@ class Asteroids extends Game {
         ship.notLost = true;
     }
     
-    sound.THEME.loop();
+    //sound.THEME.loop();
     this.repaint();
   }
   
@@ -201,10 +205,17 @@ class Asteroids extends Game {
   }
   
   //Makes asteroids based on base and level
+  public final int distance = 100;
   public void generate() {
     if(level != 0) {    
         for(int i = 0; i < numAsteroids + level*2; i++) {
             asteroids.add(new Asteroid());
+            
+            //Asteriods cannot next to ship
+            while((asteroids.get(i).position.x < (ship.position.x + distance) && asteroids.get(i).position.x > (ship.position.x - distance)) && (asteroids.get(i).position. y < (ship.position.y + distance) && asteroids.get(i).position.y > (ship.position.y - distance))) {
+                asteroids.get(i).position.x = Math.random() * 800;
+                asteroids.get(i).position.y = Math.random() *600;
+            }
         }
     }
   }

@@ -14,11 +14,11 @@ public class Bullet extends Circle {
     
     public Bullet(Ship ship) {
         super(ship.position.x, ship.position.y, 3);
-        this.x = ship.position.x;
-        this.y = ship.position.y;
+        this.x = ship.position.x + ship.posMove().x*360;
+        this.y = ship.position.y - ship.posMove().y*360;
         Point point = ship.posMove();
-        this.accelX = point.x*speed;
-        this.accelY = point.y*speed;
+        this.accelX = point.x*speed + ship.posMove().x;
+        this.accelY = point.y*speed + ship.posMove().y;
         //base bullets don't cross
         crossed = true;
     }
